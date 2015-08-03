@@ -2,7 +2,6 @@ import numpy as np
 import math
 import random
 import time
-import pyspark
 from pyspark import SparkContext
 from pyspark.conf import SparkConf
 from itertools import *
