@@ -1,15 +1,13 @@
 import numpy as np
 import math
 import random
-import time
 from pyspark import SparkContext
 from pyspark.conf import SparkConf
-from itertools import *
 
 # Current restriction is that the data is square
-# As of August 3rd, 2015
-# Next to implement: Different shaped matrix partitioning
+# Different shaped matrix partitioning, requires calculations as to number of partitions
 
+# Number of cores depends on personal machine or EC2
 sc = SparkContext("local[8]")
 sc.setLogLevel("WARN")
 
