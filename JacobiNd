@@ -1,0 +1,20 @@
+from stencil_code.stencil_kernel import Stencil
+from stencil_code.neighborhood import Neighborhood
+
+class JacobiNd(Stencil):
+    def __init__(self, dimensions, radius, use_moore=False, backend='c', boundary_handling='clamp', **kwargs):
+        if use_moore:
+            neighborhoods = [Neighborhood.moore_neighborhood(radius=radius, dim=dimensions, include_origin=False)]
+        else:
+            neighborhoods = [Neighborhood.von_neuman_neighborhood(radius=radius, dim=dimensions, include_origin=False)]
+
+        super(JacobiNd, self).__init__(
+            backend=backend, neighborhoods=neighborhoods, boundary_handling=boundary_handling, **kwargs)
+
+        self.neighbor_weight = 1.0 / len(neighborhoods[0])
+
+    def kernel(self, in_grid, out_grid):
+        for x in self.interior_points(out_grid):
+            out_grid[x] = 0.0
+            for y in self.neighbors(x, 0):
+                out_grid[x] += self.neighbor_weight * in_grid[y]
