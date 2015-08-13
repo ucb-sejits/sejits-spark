@@ -1,0 +1,75 @@
+Backend errors:
+
+omp:
+/tmp/tmpXFGJQp/kernel/_4174376969209860533/_7985492147856592190/SpecializedStencil/omp_clamp/module.c: In function ‘stencil_kernel’:
+/tmp/tmpXFGJQp/kernel/_4174376969209860533/_7985492147856592190/SpecializedStencil/omp_clamp/module.c:14:13: warning: implicit declaration of function ‘clamp’ [-Wimplicit-function-declaration]
+             name_1[_name_1_array_macro(clamp(x1, 0, 9), clamp(x2, 0, 9))] = 0.0;
+             ^
+Traceback (most recent call last):
+  File "Spark_Ghost_Cell_Partition.py", line 50, in <module>
+    out = stencil(twoD_array_data)
+  File "/usr/local/lib/python2.7/dist-packages/stencil_code/stencil_kernel.py", line 457, in __call__
+    return self.specializer(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/ctree-0.1.9-py2.7.egg/ctree/jit.py", line 324, in __call__
+    csf = self.finalize(transform_result, program_config)
+  File "/usr/local/lib/python2.7/dist-packages/stencil_code/stencil_kernel.py", line 401, in finalize
+    entry_type, self.output)
+  File "/usr/local/lib/python2.7/dist-packages/stencil_code/stencil_kernel.py", line 93, in finalize
+    self._c_function = self._compile(entry_name, tree, entry_type)
+  File "/usr/local/lib/python2.7/dist-packages/ctree-0.1.9-py2.7.egg/ctree/jit.py", line 116, in _compile
+    return self._module.get_callable(entry_point_name, entry_point_typesig)
+  File "/usr/local/lib/python2.7/dist-packages/ctree-0.1.9-py2.7.egg/ctree/jit.py", line 78, in get_callable
+    lib = ctypes.cdll.LoadLibrary(self.so_file_name)
+  File "/usr/lib/python2.7/ctypes/__init__.py", line 443, in LoadLibrary
+    return self._dlltype(name)
+  File "/usr/lib/python2.7/ctypes/__init__.py", line 365, in __init__
+    self._handle = _dlopen(self._name, mode)
+OSError: /tmp/tmpXFGJQp/kernel/_4174376969209860533/_7985492147856592190/SpecializedStencil/omp_clamp/module.so: undefined symbol: clamp
+
+ocl:
+Traceback (most recent call last):
+  File "Spark_Ghost_Cell_Partition.py", line 50, in <module>
+    out = stencil(twoD_array_data)
+  File "/usr/local/lib/python2.7/dist-packages/stencil_code/stencil_kernel.py", line 457, in __call__
+    return self.specializer(*args, **kwargs)
+  File "/usr/local/lib/python2.7/dist-packages/ctree-0.1.9-py2.7.egg/ctree/jit.py", line 322, in __call__
+    program_config, dir_name)
+  File "/usr/local/lib/python2.7/dist-packages/ctree-0.1.9-py2.7.egg/ctree/jit.py", line 270, in get_transform_result
+    transform_result = self.run_transform(program_config)
+  File "/usr/local/lib/python2.7/dist-packages/ctree-0.1.9-py2.7.egg/ctree/jit.py", line 335, in run_transform
+    program_config
+  File "/usr/local/lib/python2.7/dist-packages/stencil_code/stencil_kernel.py", line 311, in transform
+    tree = backend_transformer.visit(project)
+  File "/usr/lib/python2.7/ast.py", line 241, in visit
+    return visitor(node)
+  File "/usr/local/lib/python2.7/dist-packages/stencil_code/backend/ocl.py", line 79, in visit_Project
+    node.files[0] = self.visit(node.files[0])
+  File "/usr/lib/python2.7/ast.py", line 241, in visit
+    return visitor(node)
+  File "/usr/local/lib/python2.7/dist-packages/stencil_code/backend/ocl.py", line 84, in visit_CFile
+    node.body = list(map(self.visit, node.body))
+  File "/usr/lib/python2.7/ast.py", line 241, in visit
+    return visitor(node)
+  File "/usr/local/lib/python2.7/dist-packages/stencil_code/backend/ocl.py", line 109, in visit_FunctionDecl
+    device = cl.clGetDeviceIDs()[desired_device_number]
+  File "/usr/local/lib/python2.7/dist-packages/pycl.py", line 1233, in clGetDeviceIDs
+    platform = clGetPlatformIDs()[0]
+  File "/usr/local/lib/python2.7/dist-packages/pycl.py", line 1131, in clGetPlatformIDs
+    clGetPlatformIDs.call(0, None, byref(num_platforms))
+  File "/usr/local/lib/python2.7/dist-packages/pycl.py", line 854, in _result_errcheck
+    raise cl_errnum._errors[result]
+KeyError: UNKNOWN(0x-3e9)
+
+opencl:
+Traceback (most recent call last):
+  File "Spark_Ghost_Cell_Partition.py", line 50, in <module>
+    out = stencil(twoD_array_data)
+  File "/usr/local/lib/python2.7/dist-packages/stencil_code/stencil_kernel.py", line 457, in __call__
+    return self.specializer(*args, **kwargs)
+AttributeError: 'JacobiNd' object has no attribute 'specializer'
+
+c:
+Works!
+
+python:
+Works!
